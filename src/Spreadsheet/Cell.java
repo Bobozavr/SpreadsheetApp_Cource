@@ -8,7 +8,7 @@ public class Cell {
     public Cell(String rawContent) {
         this.rawContent = rawContent.trim();
         this.type = determineType(this.rawContent);
-        this.value = parseValue();
+        this.value = parsingValue();
     }
 
     private CellType determineType(String rawContent) {
@@ -20,7 +20,7 @@ public class Cell {
         return CellType.ERROR;
     }
 
-    private Object parseValue() {
+    private Object parsingValue() {
         switch (type) {
             case INTEGER:
                 return Integer.parseInt(rawContent);
