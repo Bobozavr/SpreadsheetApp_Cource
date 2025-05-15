@@ -40,13 +40,11 @@ public class spreadsheet {
 
 
     public void print() {
-        final int rangeofcolumn = 15;
-        for (List<Cell> row : table) {               // loop on all cells in table
+        for (List<Cell> row : table) {
             for (int i = 0; i < row.size(); i++) {
-                String cellValue = row.get(i).displayValue(); //return cell with index i  after making display depends of type
-                System.out.print(String.format("%-" + rangeofcolumn + "s", cellValue));// using format for cell //"-" format left side
-
-                if (i < row.size() - 1) System.out.print(" | "); //  after each cell use | but not at the end => i < row.size() - 1
+                String cellValue = row.get(i).displayValue(this); // передаём текущий spreadsheet
+                System.out.print(String.format("%-13s", cellValue)); // 13 символов — красиво выровнено
+                if (i < row.size() - 1) System.out.print("|");
             }
             System.out.println();
         }
@@ -56,4 +54,16 @@ public class spreadsheet {
     public List<List<Cell>> getTable() {
         return table;
     }
+
+    public Cell getCell(int row, int col) {
+        if (row >= 0 && row < table.size()) {
+            List<Cell> targetRow = table.get(row);
+            if (col >= 0 && col < targetRow.size()) {
+                return targetRow.get(col);
+            }
+        }
+        //  if there is no  cell  we will return empty
+        return new Cell("");
+    }
+
 }

@@ -25,10 +25,12 @@ public class Main {
                 case "help":
                     System.out.println("Available commands:");
                     System.out.println("open <file>");
+                    System.out.println("help");
                     System.out.println("close");
+                    System.out.println("edit");
+                    System.out.println("print");
                     System.out.println("save");
                     System.out.println("save as <file>");
-                    System.out.println("help");
                     System.out.println("exit");
                     break;
                 case "open":
@@ -43,6 +45,16 @@ public class Main {
                         spreadsheet.print();
                     } catch (IOException Er) {   //if error
                         System.out.println("Error reading file: " + Er.getMessage());
+                    }
+                    break;
+                case "close":
+                    System.out.print("Are you sure you want to close the current table without saving? (yes/no): ");
+                    String confirm = scanner.nextLine().trim().toLowerCase();
+                    if (confirm.equals("yes")) {
+                        spreadsheet = new spreadsheet();  //clean hole table
+                        System.out.println("Table closed.");
+                    } else {
+                        System.out.println("Close cancelled.");
                     }
                     break;
                 case "print":
@@ -62,13 +74,13 @@ public class Main {
                             System.out.println("Row out of bounds.");
                             break;
                         }
-                        List<Cell> targetRow = spreadsheet.getTable().get(row);        // same for row like for cell
-                        if (col < 0 || col >= targetRow.size()) {
+                        List<Cell> NewRow = spreadsheet.getTable().get(row);        // same for row like for cell
+                        if (col < 0 || col >= NewRow.size()) {
                             System.out.println("Column out of bounds.");
                             break;
                         }
 
-                        targetRow.set(col, new Cell(newValue));         //save to TargetRow update cell with new value
+                        NewRow.set(col, new Cell(newValue));         //save to NewRow update cell with new value
                         System.out.println("Cell updated.");
                     } catch (NumberFormatException e) {             //if error
                         System.out.println("Invalid row/column number.  Please ensure the row and column are integers");
@@ -83,8 +95,8 @@ public class Main {
                     try {
                         spreadsheet.saveToFile(argument);
                         System.out.println("File saved successfully.");
-                    } catch (IOException Er) {
-                        System.out.println("Error saving file: " + Er.getMessage());
+                    } catch (IOException e) {
+                        System.out.println("Error saving file: " + e.getMessage());
                     }
                     break;
                 case "saveas":              // when we want save to new file we use argument for new file
@@ -109,12 +121,6 @@ public class Main {
         }
 
         scanner.close();
-    }
-    private static void printHelp() {
-        System.out.println("Available commands:");
-        System.out.println("open <filename> - Load a spreadsheet from a file");
-        System.out.println("exit            - Exit the application");
-        System.out.println("help            - Show this help message");
     }
 
 }
