@@ -19,7 +19,7 @@ public class Main {
             String input = scanner.nextLine().trim();  //waiting and cleaning spaces
             String[] parts = input.split("\\s+", 2); //split for 2 cases our input: info and arguments
             String command = parts[0].toLowerCase(); // use first case and small letters
-            String argument = parts.length > 1 ? parts[1] : ""; //checking second case is it empty or no
+            String argument = parts.length > 1 ? parts[1] : ""; //checking second case is it empty or its command
 
             switch (command) {
                 case "help":
@@ -51,7 +51,7 @@ public class Main {
                     System.out.print("Are you sure you want to close the current table without saving? (yes/no): ");
                     String confirm = scanner.nextLine().trim().toLowerCase();
                     if (confirm.equals("yes")) {
-                        spreadsheet = new spreadsheet();  //clean hole table
+                        spreadsheet = new spreadsheet();  //clean hole table to create new
                         System.out.println("Table closed.");
                     } else {
                         System.out.println("Close cancelled.");

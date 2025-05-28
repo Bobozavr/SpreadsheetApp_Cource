@@ -2,13 +2,13 @@ package Spreadsheet;
 
 public class Cell {
     private CellType type;
-    private String rawContent;
-    private Object value;           //for pars value
+    private String rawContent;          //users input
+    private Object value;           //for pars input
 
     public Cell(String rawContent) {                    //
-        this.rawContent = rawContent.trim();
-        this.type = determineType(this.rawContent);
-        this.value = parsingValue();
+        this.rawContent = rawContent.trim();        //trim
+        this.type = determineType(this.rawContent); //select type
+        this.value = parsingValue();                //parsing
     }
 
     private CellType determineType(String rawContent) {
@@ -27,7 +27,7 @@ public class Cell {
             case DOUBLE:
                 return Double.parseDouble(rawContent);
             case STRING:
-                return rawContent.substring(1, rawContent.length() - 1);
+                return rawContent.substring(1, rawContent.length() - 1);            //delete " "
             case FORMULA:
                 return "FORMULA";                   // to  displayValue()
             default:
@@ -39,8 +39,8 @@ public class Cell {
         if (type == CellType.EMPTY) return "";
         if (type == CellType.ERROR) return "ERROR";
         if (type == CellType.FORMULA) {
-            Object result = evaluateFormula(rawContent, forming);           //using data from table to calculate ,for example if is it null or error
-            return result != null ? result.toString() : "ERROR";
+            Object result = evaluateFormula(rawContent, forming);           //call  evaluateFormula if its formula
+            return result != null ? result.toString() : "ERROR";        //using data from table to calculate ,for example if is it null or error
         }
         return value != null ? value.toString() : "";
     }
@@ -51,11 +51,11 @@ public class Cell {
 
     public String getRawContent() {                 //from output without pars
         return rawContent;
-    }
+    }  //users input
 
     public Object getValue() {              //with pars
         return value;
-    }
+    }  //after parsing
 
 
     private Object evaluateFormula(String formula, spreadsheet forming) {
@@ -85,25 +85,25 @@ public class Cell {
         }
     }
 
-    private double getCellValueFromcase(String reference, spreadsheet forming) throws Exception {
-        if (!reference.matches("R\\d+C\\d+")) {                 //reference - string that have a coordinates of the cell, start R?C?
+    private double getCellValueFromcase(String reference, spreadsheet forming) throws Exception {           //"R1C1" to double or int
+        if (!reference.matches("R\\d+C\\d+")) {                 //if it not like model ?
             throw new Exception("Invalid cell reference: " + reference);
         }
-
+                                                                                                    //R2C3 - r1 c2
         int row = Integer.parseInt(reference.substring(1, reference.indexOf('C'))) - 1;         //take  num between R and C(cut index from 1 to C = between)    // and -1 bcs index start from 0
         int col = Integer.parseInt(reference.substring(reference.indexOf('C') + 1)) - 1;    //take num after C  // and -1 bcs index start from 0
 
-        Cell cell = forming.getCell(row, col);          //this row use  methods  which gets value from cells which we veed for calculate =R1C1+R2C2
+        Cell cell = forming.getCell(row, col);          //we get cell from  table by cordinates
         if (cell == null || cell.getType() == CellType.EMPTY) {
             return 0;
         }
 
-        Object value = cell.getValue();         //Int,Double,String or null
+        Object value = cell.getValue();         //if it s number
         if (value instanceof Number) {
             return ((Number) value).doubleValue();
         }
 
-        if (value instanceof String) {
+        if (value instanceof String) {          //if it string try to convert by num if it not possible = 0
             try {
                 return Double.parseDouble((String) value);  //if string we convert to 0 to catch 0 in res for formul
             } catch (NumberFormatException e) {
