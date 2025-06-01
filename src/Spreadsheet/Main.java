@@ -1,11 +1,10 @@
-import Spreadsheet.spreadsheet;
+package Spreadsheet;
+
 import java.io.IOException; // for try catch
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
-import Spreadsheet.CellType;
-import Spreadsheet.Cell;
 
 public class Main {
     public static void main(String[] args) {
