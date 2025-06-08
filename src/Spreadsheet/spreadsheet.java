@@ -66,4 +66,10 @@ public class spreadsheet {
         return new Cell("");
     }
 
+    public void clear() {
+        table.clear();
+    }
+
+
+
 }
