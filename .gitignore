@@ -27,3 +27,16 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+# Generated files and local backups
+/build/
+/backups/
+/.idea/workspace.xml
+
+
+# Keep the runnable application available for download
+!/dist/
+/dist/*
+!/dist/SpreadsheetApp.jar
+/.idea/
+/example.csv
+/exs.csv
